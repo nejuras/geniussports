@@ -1,0 +1,18 @@
+{
+  "entrypoints": {
+    "js/sport": {
+      "js": [
+        "/build/runtime.1ba6bf05.js",
+        "/build/js/sport.e049a780.js"
+      ]
+    },
+    "css/sport": {
+      "js": [
+        "/build/runtime.1ba6bf05.js"
+      ],
+      "css": [
+        "/build/css/sport.bada174e.css"
+      ]
+    }
+  }
+}

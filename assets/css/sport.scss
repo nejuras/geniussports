@@ -1,0 +1,36 @@
+@import "_variables";
+@import "~font-awesome";
+
+/*** WRAPPER ***/
+#wrapper {
+  //background: $gray-light;
+  //box-shadow: inset 0 3px 5px 0 $box-shadow;
+  //padding-top: 10.563rem;
+  table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 50px auto;
+    .score, .wins{
+      font-weight: bold;
+    }
+    td {
+      color: $gray;
+    }
+    th{
+      cursor: pointer;
+      //text-decoration-line: underline;
+      .fa-sort-asc {
+        transform: translateY(4px);
+      }
+
+      .fa-sort-desc {
+        transform: translateY(-1px);
+      }
+    }
+    td, th {
+      text-align: center;
+      border: 1px solid $gray;
+      padding: 1rem;
+    }
+  }
+}

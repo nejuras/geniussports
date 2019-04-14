@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genius Sports!{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th id="sortDate" data-url="sort_score" data-sort="sasc">Date <i class="fa fa-sort-desc"></i></th>
+                <th id="sortTeamA" data-url="sort_score" data-sort="sasc">Team A <i class="fa fa-sort-desc"></i></th>
+                <th id="sortTeamB" data-url="sort_score" data-sort="sasc">Team B <i class="fa fa-sort-desc"></i></th>
+                <th id="sortScore" data-url="sort_score" data-sort="sasc">Score <i class="fa fa-sort-desc"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for matche in matches %}
+                <tr id="sasc">
+                    <td>{{ matche.date }}</td>
+                    <td>{{ matche.teamAId }}</td>
+                    <td>{{ matche.teamBId }}</td>
+                    <td class="score">
+                        {{ matche.scoreA|default('') }} {% if (matche.scoreA|default('') >= '0') %} : {% endif %}{{ matche.scoreB|default('') }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <thead>
+            <tr>
+                <th id="sortName" data-url="sort_team" data-sort="asc">Name</th>
+                <th id="sortWins" data-url="sort_team" data-sort="asc">Wins <i class="fa fa-sort-desc"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team, wins in teams %}
+                <tr id="asc">
+                    <td>{{ team }}</td>
+                    <td class="wins">{{ wins }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+ {% block javascripts %}
+     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+     <script type="text/javascript">
+         $(document).ready(function () {
+
+             function getTeams(source) {
+
+                 var sortNumber = $(source).attr("data-sort");
+                 var sortId = source.id + sortNumber;
+                 var url = "{{ path('sort_team', {sort: 'sortNumber'}) }}";
+                 url = url.replace('sortNumber', sortId);
+                 var ids = '#' + sortNumber;
+
+
+                 $.ajax({
+                     type: 'GET',
+                     url: url,
+                     dataType: 'json',
+                     success: function (response) {
+                         // console.log(response);
+                         $.each(response, function (team, wins) {
+                             sortNumber === 'asc' ? sortas = 'desc' : sortas = 'asc';
+                             $(ids).replaceWith('<tr id="' + sortas + '"><td>' + team + '</td><td class="wins">' + wins + '</td></tr>');
+                         });
+                         switch (true) {
+                             case (sortNumber === 'asc'):
+                                 $(source).attr("data-sort", "desc");
+                                 $('[id=' + sortNumber + ']').attr("id", "desc");
+                                 $('#' + source.id + ' .fa-sort-desc').replaceWith('<i class="fa fa-sort-asc"></i>');
+                                 break;
+                             case (sortNumber === 'desc'):
+                                 $(source).attr("data-sort", "asc");
+                                 $('[id=' + sortNumber + ']').attr("id", "asc");
+                                 $('#' + source.id + ' .fa-sort-asc').replaceWith('<i class="fa fa-sort-desc"></i>');
+                                 break;
+                         }
+                     }
+                 });
+             }
+
+             function getSchedulesAndResults(source) {
+
+                 var sortNumber = $(source).attr("data-sort");
+                 var sortId = source.id + sortNumber;
+                 var url = "{{ path('sort_score', {sort: 'sortNumber'}) }}";
+                 url = url.replace('sortNumber', sortId);
+                 var ids = '#' + sortNumber;
+
+                 $.ajax({
+                     type: 'GET',
+                     url: url,
+                     dataType: 'json',
+                     success: function (response) {
+                         $.each(response, function (i, value) {
+                             colon = ':';
+                             if (value.scoreA == null && value.scoreB == null) {
+                                 value.scoreA = '';
+                                 value.scoreB = '';
+                                 colon = '';
+                             }
+                             sortNumber === 'sasc' ? sortas = 'sdesc' : sortas = 'sasc';
+
+                             $(ids).replaceWith('<tr id="' + sortas + '"><td>' + value.date + '</td><td>' + value.teamAId + '</td><td>' + value.teamBId + '</td><td>' + value.scoreA + colon + value.scoreB + '</td></tr>');
+
+                         });
+
+                         switch (true) {
+                             case (sortNumber === 'sasc'):
+                                 $(source).attr("data-sort", "sdesc");
+                                 $('[id=' + sortNumber + ']').attr("id", "sdesc");
+                                 $('#' + source.id + ' .fa-sort-desc').replaceWith('<i class="fa fa-sort-asc"></i>');
+                                 break;
+                             case (sortNumber === 'sdesc'):
+                                 $(source).attr("data-sort", "sasc");
+                                 $('[id=' + sortNumber + ']').attr("id", "sasc");
+                                 $('#' + source.id + ' .fa-sort-asc').replaceWith('<i class="fa fa-sort-desc"></i>');
+                                 break;
+                         }
+
+                     }
+
+                 });
+             }
+
+             $('#sortWins, #sortName').on('click', function (e) {
+                 getTeams(this);
+             });
+
+             $('#sortScore, #sortTeamB, #sortTeamA, #sortDate').on('click', function (e) {
+                 getSchedulesAndResults(this);
+             });
+         });
+     </script>
+ {% endblock %}
