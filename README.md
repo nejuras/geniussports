@@ -8,7 +8,7 @@
 
 # How to Run dev environment
 ```
- $ git clone <project>
+ $ git clone https://github.com/nejuras/geniussports.git
  $ cd path/to/<project>
  $ composer install
  $ php bin/console doctrine:database:create
