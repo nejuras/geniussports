@@ -22,7 +22,7 @@ class GeniusSportController extends AbstractController
         $this->entityManager = $entityManager;
     }
     /**
-     * @Route("/genius/sport", name="genius_sport")
+     * @Route("/", name="genius_sport")
      */
     public function index()
     {
