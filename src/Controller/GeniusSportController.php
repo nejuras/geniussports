@@ -229,14 +229,6 @@ class GeniusSportController extends AbstractController
             arsort($teamWinSumArray);
             return new JsonResponse($teamWinSumArray);
         }
-        if ($sort == 'sortNamedesc') {
-            ksort($teamWinSumArray);
-            return new JsonResponse($teamWinSumArray);
-        }
-        if ($sort == 'sortNameasc') {
-            krsort($teamWinSumArray);
-            return new JsonResponse($teamWinSumArray);
-        }
         arsort($teamWinSumArray);
         return $teamWinSumArray;
     }
