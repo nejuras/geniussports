@@ -1,5 +1,5 @@
 # Genius Sports
-
+ live version: http://geniussport.nejuras.lt/
 # Requirements
 ```
  - PHP 7.0+
