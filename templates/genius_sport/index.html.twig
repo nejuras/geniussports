@@ -106,7 +106,7 @@
                              }
                              sortNumber === 'sasc' ? sortas = 'sdesc' : sortas = 'sasc';
 
-                             $(ids).replaceWith('<tr id="' + sortas + '"><td>' + value.date + '</td><td>' + value.teamAId + '</td><td>' + value.teamBId + '</td><td>' + value.scoreA + colon + value.scoreB + '</td></tr>');
+                             $(ids).replaceWith('<tr id="' + sortas + '"><td>' + value.date + '</td><td>' + value.teamAId + '</td><td>' + value.teamBId + '</td><td class="score">' + value.scoreA + colon + value.scoreB + '</td></tr>');
 
                          });
 
